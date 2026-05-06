@@ -1,0 +1,27 @@
+export const IMG = {
+  heroBgPremium: '/images/premium_hero_section_background_for_rawij_an_ai_powered_digital_agency..png',
+  deviceShowcase: '/images/website_and_landing_page_showcase_for_rawij._a_desktop_monitor_mockup_showing_a.png',
+  aiFlow: '/images/ai_creative_workflow_visual_for_rawij._abstract_representation_of_content.png',
+  dashboard: '/images/floating_digital_dashboard_mockup_for_rawij._features_clean_ui_panels_with.png',
+  heroBg: '/images/hero-bg.jpg',
+  heroAbstract: '/images/hero-abstract.jpg',
+  servicesAi: '/images/services-ai.jpg',
+  aboutTeam: '/images/about-team.jpg',
+  contactBg: '/images/contact-bg.jpg',
+  service: {
+    social: '/images/service-social.jpg',
+    ai: '/images/service-ai.jpg',
+    ads: '/images/service-ads.jpg',
+    web: '/images/service-web.jpg',
+    automation: '/images/service-automation.jpg',
+    branding: '/images/service-branding.jpg',
+  },
+  portfolio: [
+    '/images/portfolio-1.jpg',
+    '/images/portfolio-2.jpg',
+    '/images/portfolio-3.jpg',
+    '/images/portfolio-4.jpg',
+    '/images/portfolio-5.jpg',
+    '/images/portfolio-6.jpg',
+  ],
+} as const
