@@ -36,19 +36,28 @@ export function DeviceStack({
   const driftXAlt = useTransform(sx, [-0.5, 0.5], [10, -10])
   const driftYAlt = useTransform(sy, [-0.5, 0.5], [6, -6])
 
-  // Scroll-driven collapse — mini cards exit, dashboard grows
+  // Scroll-driven collapse curves
+  // Phase A (0 → 15%): nothing happens, hero is static
+  // Phase B (15% → 50%): mini cards gradually fade + drift outward + blur
+  //                      dashboard grows toward 1.2× and gains green glow
+  // Phase C (50% → 100%): everything holds — composition is locked
   const fallbackProgress = useMotionValue(0)
   const progress = collapseProgress ?? fallbackProgress
-  const miniOpacity = useTransform(progress, [0, 0.45], [1, 0])
-  const miniScale = useTransform(progress, [0, 0.55], [1, 0.6])
-  const miniBlur = useTransform(progress, [0, 0.5], [0, 8])
-  const miniBlurFilter = useTransform(miniBlur, (v) => `blur(${v}px)`)
-  const driftFar1X = useTransform(progress, [0, 1], [0, 80])
-  const driftFar2X = useTransform(progress, [0, 1], [0, -80])
-  const driftFar1Y = useTransform(progress, [0, 1], [0, -40])
-  const driftFar2Y = useTransform(progress, [0, 1], [0, 40])
-  const dashScale = useTransform(progress, [0, 1], [1, 1.18])
-  const dashGlow = useTransform(progress, [0, 1], [0, 1])
+
+  const miniOpacity   = useTransform(progress, [0, 0.15, 0.50, 1], [1, 1, 0, 0])
+  const miniScale     = useTransform(progress, [0, 0.15, 0.50, 1], [1, 1, 0.55, 0.55])
+  const miniBlur      = useTransform(progress, [0, 0.15, 0.50, 1], [0, 0, 10, 10])
+  const miniBlurFilter= useTransform(miniBlur, (v) => `blur(${v}px)`)
+
+  // Mini-card escape vectors (start drifting at 15%, reach final position at 50%)
+  const driftFar1X = useTransform(progress, [0, 0.15, 0.50, 1], [0, 0,  90,  90])
+  const driftFar2X = useTransform(progress, [0, 0.15, 0.50, 1], [0, 0, -90, -90])
+  const driftFar1Y = useTransform(progress, [0, 0.15, 0.50, 1], [0, 0, -45, -45])
+  const driftFar2Y = useTransform(progress, [0, 0.15, 0.50, 1], [0, 0,  45,  45])
+
+  // Dashboard grows from 1 → 1.2 by 50%, then holds
+  const dashScale  = useTransform(progress, [0, 0.50, 1], [1, 1.2, 1.2])
+  const dashGlow   = useTransform(progress, [0, 0.50, 1], [0, 1, 1])
 
   const onMove = (e: MouseEvent<HTMLDivElement>) => {
     const rect = ref.current?.getBoundingClientRect()
