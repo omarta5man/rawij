@@ -38,7 +38,7 @@ export function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[180vh] bg-[#F0EDE3] dark:bg-background"
+      className="relative h-[280vh] bg-[#F0EDE3] dark:bg-background"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center pt-28 lg:pt-32 pb-20">
       {/* ── Light-theme background (from brand design) ── */}
