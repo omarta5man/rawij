@@ -1,7 +1,6 @@
 import { Hero } from '@/components/sections/hero'
 import { MarqueeStrip } from '@/components/sections/marquee-strip'
 import { ServicesOverview } from '@/components/sections/services-overview'
-import { RawijDeconstructed } from '@/components/sections/rawij-deconstructed'
 import { WhyRawij } from '@/components/sections/why-rawij'
 import { Pricing } from '@/components/sections/pricing'
 import { Portfolio } from '@/components/sections/portfolio'
@@ -16,7 +15,6 @@ export default function Home() {
       <Hero />
       <MarqueeStrip />
       <ServicesOverview />
-      <RawijDeconstructed />
       <WhyRawij />
       <Pricing />
       <Portfolio />
