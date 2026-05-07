@@ -19,26 +19,23 @@ export function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end end'] })
 
-  // Cinematic scroll-driven timing
-  //  0–15%   :  hero is static (gives the user a beat to read it)
-  //  15–50%  :  mini cards exit + dashboard grows to 1.2×
-  //  30–55%  :  headline slides toward the device cluster, shrinks, fades through 40% → 0
-  //  55–100% :  composition is locked, next section reveals on continued scroll
-  const copyY       = useTransform(scrollYProgress, [0, 0.30, 0.55, 1], [0, 0, -260, -260])
-  // Slide horizontally toward the device cluster (right in LTR, left in RTL)
-  const copyXTarget = dir === 'rtl' ? -120 : 120
-  const copyX       = useTransform(scrollYProgress, [0, 0.30, 0.55, 1], [0, 0, copyXTarget, copyXTarget])
+  // Cinematic scroll-driven timing — fits within ~one screen of natural scroll
+  //  0–15%   :  hero static
+  //  15–50%  :  mini cards exit, dashboard takes over (grows large)
+  //  30–55%  :  headline tucks up and fades behind the dashboard
+  //  55–100% :  composition locked, page scrolls past normally
+  const copyY       = useTransform(scrollYProgress, [0, 0.30, 0.55, 1], [0, 0, -110, -110])
   const copyOpacity = useTransform(scrollYProgress, [0, 0.30, 0.42, 0.55, 1], [1, 1, 0.4, 0, 0])
-  const copyScale   = useTransform(scrollYProgress, [0, 0.30, 0.55, 1], [1, 1, 0.82, 0.82])
+  const copyScale   = useTransform(scrollYProgress, [0, 0.30, 0.55, 1], [1, 1, 0.94, 0.94])
 
-  // Device column: subtle scale-in to amplify the dashboard zoom inside DeviceStack
-  const sceneScale  = useTransform(scrollYProgress, [0, 0.55, 1], [1, 1.05, 1.05])
-  const sceneY      = useTransform(scrollYProgress, [0, 1], [0, 40])
+  // Device column: stronger scale-in so the dashboard visually takes over the area
+  const sceneScale  = useTransform(scrollYProgress, [0, 0.50, 1], [1, 1.15, 1.15])
+  const sceneY      = useTransform(scrollYProgress, [0, 1], [0, 30])
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-[280vh] bg-[#F0EDE3] dark:bg-background"
+      className="relative h-[160vh] bg-[#F0EDE3] dark:bg-background"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center pt-28 lg:pt-32 pb-20">
       {/* ── Light-theme background (from brand design) ── */}
@@ -98,9 +95,9 @@ export function Hero() {
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10 w-full">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Copy — sits still until 30% scroll, then slides toward the device cluster, shrinks and fades behind it */}
+          {/* Copy — sits still until 30% scroll, then tucks upward, shrinks, and fades behind the device */}
           <motion.div
-            style={{ y: copyY, x: copyX, opacity: copyOpacity, scale: copyScale }}
+            style={{ y: copyY, opacity: copyOpacity, scale: copyScale }}
             className={cn(
               'lg:col-span-7 text-center lg:text-start relative z-10 will-change-transform',
               dir === 'rtl' && 'lg:text-right'

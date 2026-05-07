@@ -55,8 +55,8 @@ export function DeviceStack({
   const driftFar1Y = useTransform(progress, [0, 0.15, 0.50, 1], [0, 0, -45, -45])
   const driftFar2Y = useTransform(progress, [0, 0.15, 0.50, 1], [0, 0,  45,  45])
 
-  // Dashboard grows from 1 → 1.2 by 50%, then holds
-  const dashScale  = useTransform(progress, [0, 0.50, 1], [1, 1.2, 1.2])
+  // Dashboard grows from 1 → 1.4 by 50%, then holds — large enough to visually dominate
+  const dashScale  = useTransform(progress, [0, 0.50, 1], [1, 1.4, 1.4])
   const dashGlow   = useTransform(progress, [0, 0.50, 1], [0, 1, 1])
 
   const onMove = (e: MouseEvent<HTMLDivElement>) => {
