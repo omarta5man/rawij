@@ -13,6 +13,14 @@ export const IMG = {
   servicesAi: '/images/services-ai.jpg',
   aboutTeam: '/images/about-team.jpg',
   contactBg: '/images/contact-bg.jpg',
+  // New 3D generated images
+  hero3dAbstract: '/images/hero-3d-abstract.jpg',
+  services3d: '/images/services-3d.jpg',
+  portfolioShowcase: '/images/portfolio-showcase.jpg',
+  whyUs3d: '/images/why-us-3d.jpg',
+  testimonialsBg: '/images/testimonials-bg.jpg',
+  pricing3dBg: '/images/pricing-3d-bg.jpg',
+  urbanThreadsAds: '/images/urban-threads-ads.jpg',
   service: {
     social: '/images/service-social.jpg',
     ai: '/images/service-ai.jpg',

@@ -180,6 +180,76 @@
   .animate-marquee-reverse { animation: marquee-reverse var(--marquee-duration, 40s) linear infinite; }
 }
 
+/* 3D Transform utilities */
+@layer utilities {
+  .perspective-1000 { perspective: 1000px; }
+  .perspective-1200 { perspective: 1200px; }
+  .preserve-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; }
+  
+  /* 3D card hover effect */
+  .card-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.4s ease-out;
+  }
+  .card-3d:hover {
+    transform: rotateY(5deg) rotateX(-5deg) translateZ(20px);
+  }
+  
+  /* Glassmorphism */
+  .glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .dark .glass {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: 0 0 40px -10px oklch(0.78 0.16 128 / 0.5);
+  }
+  .glow-accent {
+    box-shadow: 0 0 40px -10px oklch(0.86 0.12 130 / 0.5);
+  }
+  
+  /* Animated gradient text */
+  .gradient-text-animate {
+    background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 5s linear infinite;
+  }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Enhanced shadows for 3D depth */
+@layer utilities {
+  .shadow-3d {
+    box-shadow: 
+      0 1px 2px rgba(0,0,0,0.04),
+      0 4px 8px rgba(0,0,0,0.04),
+      0 16px 32px rgba(0,0,0,0.04),
+      0 32px 64px rgba(0,0,0,0.04);
+  }
+  .shadow-3d-hover:hover {
+    box-shadow: 
+      0 2px 4px rgba(0,0,0,0.06),
+      0 8px 16px rgba(0,0,0,0.06),
+      0 24px 48px rgba(0,0,0,0.06),
+      0 48px 96px rgba(0,0,0,0.06);
+  }
+}
+
 /* Utility: subtle radial mesh background */
 @layer utilities {
   .bg-mesh {

@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, MouseEvent } from 'react'
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useTransform, MotionValue } from 'framer-motion'
 import Image from 'next/image'
 import { TrendingUp, BarChart3, MessageSquare, Sparkles } from 'lucide-react'
 import { IMG } from '@/lib/images'
@@ -11,8 +11,18 @@ import { cn } from '@/lib/utils'
  * Premium 3D device-mockup composition for the hero.
  * Featured dashboard card + 3 floating UI sub-cards stacked in perspective.
  * Tracks mouse for subtle parallax depth.
+ *
+ * `collapseProgress` (optional MotionValue 0→1): when supplied, the small
+ * floating mini-cards fade & scale away while the dashboard card grows —
+ * used by the hero scroll cinematic.
  */
-export function DeviceStack({ className }: { className?: string }) {
+export function DeviceStack({
+  className,
+  collapseProgress,
+}: {
+  className?: string
+  collapseProgress?: MotionValue<number>
+}) {
   const ref = useRef<HTMLDivElement>(null)
   const mx = useMotionValue(0)
   const my = useMotionValue(0)
@@ -25,6 +35,20 @@ export function DeviceStack({ className }: { className?: string }) {
   const driftY = useTransform(sy, [-0.5, 0.5], [-8, 8])
   const driftXAlt = useTransform(sx, [-0.5, 0.5], [10, -10])
   const driftYAlt = useTransform(sy, [-0.5, 0.5], [6, -6])
+
+  // Scroll-driven collapse — mini cards exit, dashboard grows
+  const fallbackProgress = useMotionValue(0)
+  const progress = collapseProgress ?? fallbackProgress
+  const miniOpacity = useTransform(progress, [0, 0.45], [1, 0])
+  const miniScale = useTransform(progress, [0, 0.55], [1, 0.6])
+  const miniBlur = useTransform(progress, [0, 0.5], [0, 8])
+  const miniBlurFilter = useTransform(miniBlur, (v) => `blur(${v}px)`)
+  const driftFar1X = useTransform(progress, [0, 1], [0, 80])
+  const driftFar2X = useTransform(progress, [0, 1], [0, -80])
+  const driftFar1Y = useTransform(progress, [0, 1], [0, -40])
+  const driftFar2Y = useTransform(progress, [0, 1], [0, 40])
+  const dashScale = useTransform(progress, [0, 1], [1, 1.18])
+  const dashGlow = useTransform(progress, [0, 1], [0, 1])
 
   const onMove = (e: MouseEvent<HTMLDivElement>) => {
     const rect = ref.current?.getBoundingClientRect()
@@ -54,30 +78,45 @@ export function DeviceStack({ className }: { className?: string }) {
         className="absolute left-1/2 -translate-x-1/2 bottom-[6%] w-[78%] h-12 rounded-[50%] bg-gradient-to-r from-primary/15 via-accent/30 to-primary/15 blur-2xl"
       />
 
-      {/* Featured card — Dashboard */}
+      {/* Featured card — Dashboard (scales up on scroll) */}
       <motion.div
-        style={{ rotateX: tiltX, rotateY: tiltY, transformStyle: 'preserve-3d' }}
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute inset-x-[10%] top-[12%] bottom-[18%] rounded-[1.75rem] overflow-hidden border border-white/40 dark:border-white/10 shadow-[0_40px_80px_-20px_rgba(62,95,30,0.35),0_20px_40px_-12px_rgba(143,188,82,0.25)] bg-card"
+        style={{ scale: dashScale, transformStyle: 'preserve-3d' }}
+        className="absolute inset-x-[10%] top-[12%] bottom-[18%] rounded-[1.75rem] z-20"
       >
-        <Image
-          src={IMG.dashboard}
-          alt="Rawij dashboard"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-white/20 pointer-events-none mix-blend-overlay" />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+        <motion.div
+          style={{ rotateX: tiltX, rotateY: tiltY, transformStyle: 'preserve-3d' }}
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          className="relative w-full h-full rounded-[1.75rem] overflow-hidden border border-white/40 dark:border-white/10 shadow-[0_40px_80px_-20px_rgba(62,95,30,0.35),0_20px_40px_-12px_rgba(143,188,82,0.25)] bg-card"
+        >
+          <Image
+            src={IMG.dashboard}
+            alt="Rawij dashboard"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-white/20 pointer-events-none mix-blend-overlay" />
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+          {/* Scroll-driven inner glow as it grows */}
+          <motion.div
+            aria-hidden
+            style={{ opacity: dashGlow }}
+            className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/15 pointer-events-none"
+          />
+        </motion.div>
       </motion.div>
 
       {/* Floating mini-card 1 — Conversion ring */}
       <motion.div
+        style={{ opacity: miniOpacity, scale: miniScale, x: driftFar1X, y: driftFar1Y, filter: miniBlurFilter }}
+        className="absolute top-[6%] right-[2%] w-[34%] sm:w-[30%] z-30"
+      >
+      <motion.div
         style={{ x: driftX, y: driftY }}
         animate={{ rotate: [-2, 2, -2] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-[6%] right-[2%] w-[34%] sm:w-[30%] rounded-2xl bg-card/95 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_20px_50px_-12px_rgba(62,95,30,0.3)] p-3.5 sm:p-4"
+        className="rounded-2xl bg-card/95 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_20px_50px_-12px_rgba(62,95,30,0.3)] p-3.5 sm:p-4"
       >
         <div className="flex items-center gap-2 mb-2">
           <div className="w-7 h-7 rounded-lg bg-primary/15 flex items-center justify-center">
@@ -93,13 +132,18 @@ export function DeviceStack({ className }: { className?: string }) {
           </div>
         </div>
       </motion.div>
+      </motion.div>
 
       {/* Floating mini-card 2 — Audience bar chart */}
+      <motion.div
+        style={{ opacity: miniOpacity, scale: miniScale, x: driftFar2X, y: driftFar2Y, filter: miniBlurFilter }}
+        className="absolute bottom-[10%] left-[1%] w-[38%] sm:w-[34%] z-30"
+      >
       <motion.div
         style={{ x: driftXAlt, y: driftYAlt }}
         animate={{ rotate: [2, -2, 2] }}
         transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-        className="absolute bottom-[10%] left-[1%] w-[38%] sm:w-[34%] rounded-2xl bg-card/95 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_20px_50px_-12px_rgba(62,95,30,0.3)] p-3.5 sm:p-4"
+        className="rounded-2xl bg-card/95 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_20px_50px_-12px_rgba(62,95,30,0.3)] p-3.5 sm:p-4"
       >
         <div className="flex items-center gap-2 mb-2.5">
           <div className="w-7 h-7 rounded-lg bg-primary/15 flex items-center justify-center">
@@ -126,13 +170,18 @@ export function DeviceStack({ className }: { className?: string }) {
           <span className="text-[10px] sm:text-xs text-primary font-medium">+24%</span>
         </div>
       </motion.div>
+      </motion.div>
 
       {/* Floating mini-card 3 — Live AI message */}
+      <motion.div
+        style={{ opacity: miniOpacity, scale: miniScale, x: driftFar2X, y: driftFar2Y, filter: miniBlurFilter }}
+        className="absolute top-[36%] left-[-3%] w-[40%] sm:w-[36%] hidden md:block z-30"
+      >
       <motion.div
         style={{ x: driftX, y: driftYAlt }}
         animate={{ rotate: [-1.5, 1.5, -1.5] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
-        className="absolute top-[36%] left-[-3%] w-[40%] sm:w-[36%] rounded-2xl bg-card/95 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_20px_50px_-12px_rgba(62,95,30,0.3)] p-3 sm:p-3.5 hidden md:block"
+        className="rounded-2xl bg-card/95 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_20px_50px_-12px_rgba(62,95,30,0.3)] p-3 sm:p-3.5"
       >
         <div className="flex items-start gap-2.5">
           <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-md">
@@ -149,18 +198,24 @@ export function DeviceStack({ className }: { className?: string }) {
           </div>
         </div>
       </motion.div>
+      </motion.div>
 
       {/* Floating mini-card 4 — Reply ping */}
+      <motion.div
+        style={{ opacity: miniOpacity, scale: miniScale, x: driftFar2X, y: driftFar1Y, filter: miniBlurFilter }}
+        className="absolute top-[2%] left-[8%] sm:left-[12%] z-30"
+      >
       <motion.div
         style={{ x: driftXAlt, y: driftY }}
         animate={{ rotate: [1, -1.5, 1] }}
         transition={{ duration: 8.5, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-        className="absolute top-[2%] left-[8%] sm:left-[12%] rounded-full bg-card/95 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_15px_40px_-10px_rgba(62,95,30,0.3)] py-2 px-3 sm:px-3.5 flex items-center gap-2"
+        className="rounded-full bg-card/95 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_15px_40px_-10px_rgba(62,95,30,0.3)] py-2 px-3 sm:px-3.5 flex items-center gap-2"
       >
         <div className="w-6 h-6 rounded-full bg-primary/15 flex items-center justify-center">
           <MessageSquare className="w-3 h-3 text-primary" />
         </div>
         <span className="text-[10px] sm:text-xs font-medium text-foreground whitespace-nowrap">+38 DMs handled</span>
+      </motion.div>
       </motion.div>
 
       {/* Decorative glass shapes */}

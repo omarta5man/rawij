@@ -69,10 +69,7 @@ export function Header() {
                   alt="Rawij Logo"
                   width={120}
                   height={40}
-                  className={cn(
-                    'h-7 sm:h-8 lg:h-9 w-auto transition-all',
-                    isDark && 'brightness-0 invert'
-                  )}
+                  className={`h-7 sm:h-8 lg:h-9 w-auto transition-all duration-300 ${isDark ? 'brightness-0 invert' : ''}`}
                   priority
                 />
               </motion.div>
