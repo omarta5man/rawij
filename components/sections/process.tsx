@@ -2,8 +2,10 @@
 
 import { motion } from 'framer-motion'
 import { Search, Lightbulb, Palette, Rocket, TrendingUp } from 'lucide-react'
+import { SectionBackground } from '@/components/ui/section-background'
 import { useLanguage } from '@/lib/language-context'
 import { cn } from '@/lib/utils'
+import { IMG } from '@/lib/images'
 
 const steps = [
   { icon: Search, titleKey: 'process.step1.title', descKey: 'process.step1.desc' },
@@ -18,7 +20,8 @@ export function Process() {
 
   return (
     <section className="py-16 sm:py-24 lg:py-32 bg-gradient-to-b from-background to-muted/20 relative overflow-hidden">
-      <div className="container mx-auto px-4 lg:px-8">
+      <SectionBackground src={IMG.bgTilesFlow} opacity="subtle" />
+      <div className="container mx-auto px-4 lg:px-8 relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

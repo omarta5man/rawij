@@ -1,21 +1,17 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 import { useLanguage } from '@/lib/language-context'
 import { cn } from '@/lib/utils'
-import { IMG } from '@/lib/images'
 
 export function AboutHero() {
   const { t, dir } = useLanguage()
 
   return (
     <section className="relative min-h-[70vh] flex items-center overflow-hidden bg-gradient-to-b from-background via-background to-muted/20 pt-32 pb-16">
-      {/* Soft background */}
-      <div className="absolute inset-0 -z-10 opacity-40">
-        <Image src={IMG.heroBgPremium} alt="" fill className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 to-background" />
-      </div>
+      {/* Soft mesh background */}
+      <div aria-hidden className="absolute inset-0 -z-10 bg-mesh" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-background/30 via-background/10 to-background" />
 
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div

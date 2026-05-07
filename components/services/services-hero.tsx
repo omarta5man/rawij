@@ -12,10 +12,11 @@ export function ServicesHero() {
 
   return (
     <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-background to-muted/20 pt-32 pb-16">
-      <div className="absolute inset-0 -z-10 opacity-40">
-        <Image src={IMG.aiFlow} alt="" fill className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-mesh" />
+      <div aria-hidden className="absolute inset-0 -z-10 opacity-30 dark:opacity-15">
+        <Image src={IMG.aiFlow} alt="" fill className="object-cover mix-blend-overlay" />
       </div>
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-background/40 via-background/20 to-background" />
 
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div

@@ -4,8 +4,12 @@ import { motion } from 'framer-motion'
 import { ArrowRight, ArrowLeft, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { Magnetic } from '@/components/ui/motion/magnetic'
+import { FloatingPrisms } from '@/components/ui/motion/floating-prisms'
+import { SectionBackground } from '@/components/ui/section-background'
 import { useLanguage } from '@/lib/language-context'
 import { cn } from '@/lib/utils'
+import { IMG } from '@/lib/images'
 
 export function FinalCTA() {
   const { t, dir } = useLanguage()
@@ -13,6 +17,10 @@ export function FinalCTA() {
 
   return (
     <section className="py-16 sm:py-24 lg:py-32 bg-gradient-to-br from-primary/10 via-accent/5 to-primary/5 relative overflow-hidden">
+      <SectionBackground src={IMG.bgStageSpotlight} opacity="normal" position="bottom" />
+      {/* Floating 3D prism cluster */}
+      <FloatingPrisms density="normal" className="opacity-70" />
+
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
@@ -63,27 +71,31 @@ export function FinalCTA() {
             'flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4',
             dir === 'rtl' && 'sm:flex-row-reverse'
           )}>
-            <Button
-              size="lg"
-              asChild
-              className="rounded-full text-sm sm:text-base px-7 sm:px-8 bg-primary hover:bg-primary/90 group w-full sm:w-auto shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30"
-            >
-              <Link href="/contact" className={cn('flex items-center gap-2', dir === 'rtl' && 'flex-row-reverse')}>
-                {t('cta.start')}
-                <ArrowIcon className={cn(
-                  'w-4 h-4 transition-transform',
-                  dir === 'rtl' ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'
-                )} />
-              </Link>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              asChild
-              className="rounded-full text-sm sm:text-base px-7 sm:px-8 border-2 bg-background/50 backdrop-blur w-full sm:w-auto"
-            >
-              <Link href="/services">{t('cta.viewServices')}</Link>
-            </Button>
+            <Magnetic strength={14} className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                asChild
+                className="rounded-full text-sm sm:text-base px-7 sm:px-8 bg-primary hover:bg-primary/90 group w-full sm:w-auto shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30"
+              >
+                <Link href="/contact" className={cn('flex items-center gap-2', dir === 'rtl' && 'flex-row-reverse')}>
+                  {t('cta.start')}
+                  <ArrowIcon className={cn(
+                    'w-4 h-4 transition-transform',
+                    dir === 'rtl' ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'
+                  )} />
+                </Link>
+              </Button>
+            </Magnetic>
+            <Magnetic strength={8} className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                variant="outline"
+                asChild
+                className="rounded-full text-sm sm:text-base px-7 sm:px-8 border-2 bg-background/50 backdrop-blur w-full sm:w-auto"
+              >
+                <Link href="/services">{t('cta.viewServices')}</Link>
+              </Button>
+            </Magnetic>
           </div>
 
           <motion.p

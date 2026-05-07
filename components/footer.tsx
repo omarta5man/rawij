@@ -49,7 +49,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-foreground text-background relative overflow-hidden">
+    <footer className="bg-[oklch(0.13_0.005_270)] text-white relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
         <div className={cn(
           'absolute top-20 w-72 h-72 bg-primary rounded-full filter blur-3xl',
@@ -82,7 +82,7 @@ export function Footer() {
                   className="h-8 sm:h-10 w-auto brightness-0 invert"
                 />
               </Link>
-              <p className="text-xs sm:text-sm text-background/80 mb-4 sm:mb-6">
+              <p className="text-xs sm:text-sm text-white/80 mb-4 sm:mb-6">
                 {t('footer.description')}
               </p>
               <div className={cn(
@@ -97,7 +97,7 @@ export function Footer() {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.95 }}
-                    className="p-2 rounded-full bg-background/10 hover:bg-primary/20 transition-colors"
+                    className="p-2 rounded-full bg-white/10 hover:bg-primary/20 transition-colors"
                     aria-label={label}
                   >
                     <Icon size={16} className="sm:w-[18px] sm:h-[18px]" />
@@ -118,7 +118,7 @@ export function Footer() {
                   <li key={labelKey}>
                     <Link
                       href={href}
-                      className="text-xs sm:text-sm text-background/70 hover:text-background transition-colors"
+                      className="text-xs sm:text-sm text-white/70 hover:text-white transition-colors"
                     >
                       {t(labelKey)}
                     </Link>
@@ -142,7 +142,7 @@ export function Footer() {
                   <li key={idx}>
                     <Link
                       href={href}
-                      className="text-xs sm:text-sm text-background/70 hover:text-background transition-colors"
+                      className="text-xs sm:text-sm text-white/70 hover:text-white transition-colors"
                     >
                       {t(labelKey)}
                     </Link>
@@ -162,7 +162,7 @@ export function Footer() {
                 <a
                   href="mailto:hello@rawij.com"
                   className={cn(
-                    'flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-background/70 hover:text-background transition-colors',
+                    'flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-white/70 hover:text-white transition-colors',
                     dir === 'rtl' && 'flex-row-reverse justify-end'
                   )}
                 >
@@ -172,7 +172,7 @@ export function Footer() {
                 <a
                   href="tel:+970123456789"
                   className={cn(
-                    'flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-background/70 hover:text-background transition-colors',
+                    'flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-white/70 hover:text-white transition-colors',
                     dir === 'rtl' && 'flex-row-reverse justify-end'
                   )}
                 >
@@ -180,7 +180,7 @@ export function Footer() {
                   <span dir="ltr">+970 123 456 789</span>
                 </a>
                 <div className={cn(
-                  'flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-background/70',
+                  'flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-white/70',
                   dir === 'rtl' && 'flex-row-reverse justify-end'
                 )}>
                   <MapPin size={16} className="mt-0.5 flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
@@ -190,10 +190,10 @@ export function Footer() {
             </motion.div>
           </div>
 
-          <div className="h-px bg-background/10 mb-6 sm:mb-8" />
+          <div className="h-px bg-white/10 mb-6 sm:mb-8" />
 
           <div className={cn(
-            'flex flex-col md:flex-row justify-between items-center gap-4 text-xs sm:text-sm text-background/70',
+            'flex flex-col md:flex-row justify-between items-center gap-4 text-xs sm:text-sm text-white/70',
             dir === 'rtl' && 'md:flex-row-reverse'
           )}>
             <p>&copy; {currentYear} Rawij. {t('footer.rights')}</p>
@@ -205,7 +205,7 @@ export function Footer() {
                 <Link
                   key={href}
                   href={href}
-                  className="hover:text-background transition-colors"
+                  className="hover:text-white transition-colors"
                 >
                   {t(labelKey)}
                 </Link>

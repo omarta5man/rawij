@@ -4,6 +4,8 @@ import { Analytics } from '@vercel/analytics/next'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { LanguageProvider } from '@/lib/language-context'
+import { ThemeProvider } from '@/components/theme-provider'
+import { ScrollProgress } from '@/components/ui/motion/scroll-progress'
 import './globals.css'
 
 const _geist = Geist({ subsets: ['latin'], variable: '--font-geist' })
@@ -47,13 +49,16 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: langScript }} />
       </head>
       <body className={`${_geist.variable} ${_notoArabic.variable} font-sans antialiased`}>
-        <LanguageProvider>
-          <Header />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
-        </LanguageProvider>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange={false}>
+          <LanguageProvider>
+            <ScrollProgress />
+            <Header />
+            <main className="min-h-screen">
+              {children}
+            </main>
+            <Footer />
+          </LanguageProvider>
+        </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

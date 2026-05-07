@@ -3,6 +3,11 @@ export const IMG = {
   deviceShowcase: '/images/website_and_landing_page_showcase_for_rawij._a_desktop_monitor_mockup_showing_a.png',
   aiFlow: '/images/ai_creative_workflow_visual_for_rawij._abstract_representation_of_content.png',
   dashboard: '/images/floating_digital_dashboard_mockup_for_rawij._features_clean_ui_panels_with.png',
+  // ChatGPT-generated brand backgrounds
+  bgDashboardSoft: '/images/ChatGPT Image May 7, 2026, 02_19_59 AM (1).png',
+  bgTilesFlow:     '/images/ChatGPT Image May 7, 2026, 02_20_00 AM (2).png',
+  bgMockupsCorner: '/images/ChatGPT Image May 7, 2026, 02_20_00 AM (3).png',
+  bgStageSpotlight:'/images/ChatGPT Image May 7, 2026, 02_20_00 AM (4).png',
   heroBg: '/images/hero-bg.jpg',
   heroAbstract: '/images/hero-abstract.jpg',
   servicesAi: '/images/services-ai.jpg',

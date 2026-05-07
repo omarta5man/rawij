@@ -1,10 +1,11 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, ArrowLeft, ExternalLink } from 'lucide-react'
+import { ArrowRight, ArrowLeft, ExternalLink, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import { TiltCard } from '@/components/ui/motion/tilt-card'
 import { useLanguage } from '@/lib/language-context'
 import { cn } from '@/lib/utils'
 import { IMG } from '@/lib/images'
@@ -21,6 +22,7 @@ const projects = [
     servicesEn: ['Social Media', 'Content', 'Branding'],
     servicesAr: ['وسائل تواصل', 'محتوى', 'هوية'],
     image: IMG.dashboard,
+    stat: { en: '+300% engagement', ar: '+300% تفاعل' },
   },
   {
     id: 2,
@@ -33,6 +35,7 @@ const projects = [
     servicesEn: ['Branding', 'Social Media', 'Photography'],
     servicesAr: ['هوية', 'سوشيال', 'تصوير'],
     image: IMG.portfolio[1],
+    stat: { en: '+60% bookings', ar: '+60% حجوزات' },
   },
   {
     id: 3,
@@ -45,6 +48,7 @@ const projects = [
     servicesEn: ['Web Design', 'Development', 'Automation'],
     servicesAr: ['تصميم ويب', 'تطوير', 'أتمتة'],
     image: IMG.portfolio[2],
+    stat: { en: '+85% conversion', ar: '+85% تحويل' },
   },
   {
     id: 4,
@@ -57,6 +61,7 @@ const projects = [
     servicesEn: ['E-commerce', 'Paid Ads', 'Strategy'],
     servicesAr: ['متجر', 'إعلانات', 'استراتيجية'],
     image: IMG.portfolio[3],
+    stat: { en: '5× ROI', ar: '5× عائد' },
   },
 ]
 
@@ -95,40 +100,69 @@ export function Portfolio() {
             return (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-100px' }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -6 }}
+                transition={{ duration: 0.6, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className={cn('group', dir === 'rtl' && 'text-right')}
               >
-                <div className="relative overflow-hidden rounded-2xl bg-muted aspect-[4/3] mb-6 border border-border/60">
-                  <Image
-                    src={project.image}
-                    alt={title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
+                {/* Case-study stack — perspective container */}
+                <div className="relative mb-7 sm:mb-8" style={{ perspective: 1400 }}>
+                  <TiltCard intensity={5} glare={false} className="relative">
+                    <div className="relative overflow-hidden rounded-3xl bg-muted aspect-[4/3] border border-border/60 shadow-[0_20px_50px_-20px_rgba(62,95,30,0.25),0_40px_80px_-30px_rgba(143,188,82,0.2)] transition-shadow duration-500 group-hover:shadow-[0_30px_60px_-20px_rgba(62,95,30,0.35),0_50px_100px_-30px_rgba(143,188,82,0.3)]">
+                      <Image
+                        src={project.image}
+                        alt={title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.08]"
+                      />
+                      {/* Glass top edge */}
+                      <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent" />
 
+                      {/* Hover overlay */}
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        className="absolute inset-0 bg-gradient-to-br from-primary-deep/85 via-primary/80 to-accent/70 flex items-center justify-center backdrop-blur-sm"
+                      >
+                        <Button variant="secondary" size="lg" className="rounded-full shadow-xl" asChild>
+                          <Link href="/work" className={cn('flex items-center gap-2', dir === 'rtl' && 'flex-row-reverse')}>
+                            {t('portfolio.viewProject')}
+                            <ExternalLink className="w-4 h-4" />
+                          </Link>
+                        </Button>
+                      </motion.div>
+
+                      {/* Project number plaque */}
+                      <div className={cn(
+                        'absolute top-5 w-12 h-12 rounded-full bg-background/95 backdrop-blur-md flex items-center justify-center shadow-lg border border-white/40',
+                        dir === 'rtl' ? 'left-5' : 'right-5'
+                      )}>
+                        <span className="text-sm font-bold text-primary">0{project.id}</span>
+                      </div>
+                    </div>
+                  </TiltCard>
+
+                  {/* Floating stat card — bottom corner, offset out of frame for depth */}
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    className="absolute inset-0 bg-primary/90 flex items-center justify-center backdrop-blur-sm"
+                    aria-hidden
+                    animate={{ y: [0, -6, 0] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                    className={cn(
+                      'absolute -bottom-5 z-10 hidden sm:flex items-center gap-2.5 rounded-2xl bg-card/95 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_15px_35px_-10px_rgba(62,95,30,0.3)] px-4 py-3',
+                      dir === 'rtl' ? '-right-3 lg:-right-5' : '-left-3 lg:-left-5'
+                    )}
                   >
-                    <Button variant="secondary" size="lg" className="rounded-full" asChild>
-                      <Link href={`/work`} className={cn('flex items-center gap-2', dir === 'rtl' && 'flex-row-reverse')}>
-                        {t('portfolio.viewProject')}
-                        <ExternalLink className="w-4 h-4" />
-                      </Link>
-                    </Button>
+                    <span className="w-9 h-9 rounded-lg bg-primary/15 flex items-center justify-center">
+                      <TrendingUp className="w-4 h-4 text-primary" />
+                    </span>
+                    <span className="text-sm font-semibold text-foreground whitespace-nowrap">
+                      {language === 'ar' ? project.stat.ar : project.stat.en}
+                    </span>
                   </motion.div>
 
-                  <div className={cn(
-                    'absolute top-5 w-12 h-12 rounded-full bg-background/90 backdrop-blur flex items-center justify-center',
-                    dir === 'rtl' ? 'left-5' : 'right-5'
-                  )}>
-                    <span className="text-sm font-bold text-primary">0{project.id}</span>
-                  </div>
+                  {/* Soft floor reflection */}
+                  <div aria-hidden className="absolute -bottom-12 left-[6%] right-[6%] h-12 bg-gradient-to-b from-primary/10 to-transparent blur-2xl rounded-[50%] pointer-events-none" />
                 </div>
 
                 <div>
