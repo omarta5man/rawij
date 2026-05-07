@@ -13,7 +13,7 @@ const testimonials = [
     nameAr: 'سارة أحمد',
     roleEn: 'Founder, Fresh Bites Cafe',
     roleAr: 'مؤسِّسة، مقهى فريش بايتس',
-    contentEn: 'Rawij transformed our social media presence completely. Our engagement tripled in just two months, and we're seeing real customers walk through our doors because of their content.',
+    contentEn: "Rawij transformed our social media presence completely. Our engagement tripled in just two months, and we're seeing real customers walk through our doors because of their content.",
     contentAr: 'روّج غيّروا حضورنا الرقمي بالكامل. تفاعل صفحاتنا تضاعف ثلاث مرات خلال شهرين، ونلاحظ عملاء جدد يدخلون يومياً بسبب محتواهم.',
     rating: 5,
   },
