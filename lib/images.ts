@@ -20,6 +20,7 @@ export const IMG = {
   whyUs3d: '/images/why-us-3d.jpg',
   testimonialsBg: '/images/testimonials-bg.jpg',
   pricing3dBg: '/images/pricing-3d-bg.jpg',
+  urbanThreadsAds: '/images/urban-threads-ads.jpg',
   service: {
     social: '/images/service-social.jpg',
     ai: '/images/service-ai.jpg',

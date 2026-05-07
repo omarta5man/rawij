@@ -22,6 +22,7 @@ const projects = [
     servicesAr: ['وسائل تواصل', 'محتوى', 'هوية'],
     image: IMG.dashboard,
     stat: { en: '+300% engagement', ar: '+300% تفاعل' },
+    externalLink: null,
   },
   {
     id: 2,
@@ -35,6 +36,7 @@ const projects = [
     servicesAr: ['هوية', 'سوشيال', 'تصوير'],
     image: IMG.portfolioShowcase,
     stat: { en: '+60% bookings', ar: '+60% حجوزات' },
+    externalLink: null,
   },
   {
     id: 3,
@@ -48,6 +50,7 @@ const projects = [
     servicesAr: ['تصميم ويب', 'تطوير', 'أتمتة'],
     image: IMG.services3d,
     stat: { en: '+85% conversion', ar: '+85% تحويل' },
+    externalLink: 'https://v0-gigi-energy-drink-landing-page.vercel.app/',
   },
   {
     id: 4,
@@ -59,8 +62,9 @@ const projects = [
     descAr: 'متجر إلكتروني مع حملات إعلانية مستهدفة حقّقت عائداً 5 أضعاف خلال 90 يوماً.',
     servicesEn: ['E-commerce', 'Paid Ads', 'Strategy'],
     servicesAr: ['متجر', 'إعلانات', 'استراتيجية'],
-    image: IMG.whyUs3d,
+    image: IMG.urbanThreadsAds,
     stat: { en: '5× ROI', ar: '5× عائد' },
+    externalLink: null,
   },
 ]
 
@@ -171,10 +175,22 @@ export function Portfolio() {
                         transition={{ duration: 0.3 }}
                       >
                         <Button variant="secondary" size="lg" className="rounded-full shadow-2xl" asChild>
-                          <Link href="/work" className={cn('flex items-center gap-2', dir === 'rtl' && 'flex-row-reverse')}>
-                            {t('portfolio.viewProject')}
-                            <ExternalLink className="w-4 h-4" />
-                          </Link>
+                          {project.externalLink ? (
+                            <a 
+                              href={project.externalLink} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className={cn('flex items-center gap-2', dir === 'rtl' && 'flex-row-reverse')}
+                            >
+                              {t('portfolio.viewProject')}
+                              <ExternalLink className="w-4 h-4" />
+                            </a>
+                          ) : (
+                            <Link href="/work" className={cn('flex items-center gap-2', dir === 'rtl' && 'flex-row-reverse')}>
+                              {t('portfolio.viewProject')}
+                              <ExternalLink className="w-4 h-4" />
+                            </Link>
+                          )}
                         </Button>
                       </motion.div>
                     </motion.div>

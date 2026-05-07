@@ -75,11 +75,11 @@ export function Footer() {
             >
               <Link href="/" className="inline-block mb-4 sm:mb-6">
                 <Image
-                  src="/logo-white.png"
+                  src="/logo.png"
                   alt="Rawij Logo"
                   width={120}
                   height={40}
-                  className="h-8 sm:h-10 w-auto"
+                  className="h-8 sm:h-10 w-auto brightness-0 invert"
                 />
               </Link>
               <p className="text-xs sm:text-sm text-white/80 mb-4 sm:mb-6">
