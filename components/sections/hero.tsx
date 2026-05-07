@@ -25,95 +25,61 @@ export function Hero() {
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.1])
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden pt-28 lg:pt-32 pb-20">
-      {/* Background image */}
-      <motion.div 
-        style={{ scale: bgScale }}
-        className="absolute inset-0 -z-30"
-      >
-        <Image
-          src={IMG.hero3dAbstract}
-          alt=""
-          fill
-          className="object-cover opacity-40 dark:opacity-25"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" />
-      </motion.div>
+    <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden pt-28 lg:pt-32 pb-20 bg-[#F0EDE3] dark:bg-background">
+      {/* ── Light-theme background (from brand design) ── */}
+      <div aria-hidden className="absolute inset-0 -z-20 dark:hidden bg-[radial-gradient(circle_at_75%_45%,rgba(143,188,82,0.35),transparent_34%),linear-gradient(90deg,#F0EDE3_0%,#FFFFFF_42%,#E7F2D5_100%)]" />
 
-      {/* Layered gradient background */}
-      <div aria-hidden className="absolute inset-0 -z-20 bg-mesh" />
+      {/* Dark-theme layered gradient background */}
+      <div aria-hidden className="absolute inset-0 -z-20 hidden dark:block bg-mesh" />
 
-      {/* Animated 3D floating shapes */}
-      <div aria-hidden className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
-        {/* Primary glow */}
+      {/* Large right glow orb */}
+      <div aria-hidden className="absolute right-[-12%] top-[5%] h-[720px] w-[720px] rounded-full bg-[#B9D97A]/30 blur-3xl -z-10 dark:bg-primary/15 pointer-events-none" />
+
+      {/* Subtle ring decorations */}
+      <div aria-hidden className="absolute right-[8%] top-[-12%] h-[420px] w-[420px] rounded-full border border-[#8FBC52]/15 -z-10 pointer-events-none" />
+      <div aria-hidden className="absolute right-[4%] top-[-18%] h-[560px] w-[560px] rounded-full border border-[#8FBC52]/10 -z-10 pointer-events-none" />
+
+      {/* Dotted grid */}
+      <div aria-hidden className="absolute right-[8%] top-[10%] grid grid-cols-10 gap-4 opacity-20 dark:opacity-10 -z-10 pointer-events-none hidden lg:grid">
+        {Array.from({ length: 100 }).map((_, i) => (
+          <span key={i} className="h-1.5 w-1.5 rounded-full bg-[#8FBC52]" />
+        ))}
+      </div>
+
+      {/* Dark-mode only floating 3D cubes */}
+      <div aria-hidden className="absolute inset-0 -z-10 pointer-events-none overflow-hidden hidden dark:block">
         <motion.div
-          animate={{ 
-            scale: [1, 1.2, 1], 
-            opacity: [0.3, 0.5, 0.3],
-            rotateZ: [0, 10, 0]
-          }}
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
           className={cn(
             'absolute top-1/4 w-[32rem] h-[32rem] rounded-full bg-primary/25 blur-[100px]',
             dir === 'rtl' ? '-right-40' : '-left-40'
           )}
         />
-        
-        {/* Accent glow */}
         <motion.div
-          animate={{ 
-            scale: [1, 1.3, 1], 
-            opacity: [0.2, 0.35, 0.2],
-            rotateZ: [0, -15, 0]
-          }}
+          animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.35, 0.2] }}
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
           className={cn(
             'absolute bottom-1/4 w-[38rem] h-[38rem] rounded-full bg-accent/20 blur-[120px]',
             dir === 'rtl' ? '-left-40' : '-right-40'
           )}
         />
-
-        {/* Floating 3D cubes */}
-        <motion.div
-          animate={{ 
-            y: [0, -30, 0],
-            rotateX: [0, 20, 0],
-            rotateY: [0, 360],
-          }}
-          transition={{ 
-            y: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
-            rotateX: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
-            rotateY: { duration: 20, repeat: Infinity, ease: 'linear' }
-          }}
-          className="absolute top-32 left-[15%] w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/30 to-accent/20 border border-primary/20 backdrop-blur-sm hidden lg:block"
-          style={{ transformStyle: 'preserve-3d' }}
-        />
-        
-        <motion.div
-          animate={{ 
-            y: [0, 25, 0],
-            rotateZ: [0, 15, 0],
-            rotateY: [0, -360],
-          }}
-          transition={{ 
-            y: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
-            rotateZ: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
-            rotateY: { duration: 25, repeat: Infinity, ease: 'linear' }
-          }}
-          className="absolute bottom-40 right-[20%] w-12 h-12 rounded-xl bg-gradient-to-br from-accent/30 to-primary/20 border border-accent/20 backdrop-blur-sm hidden lg:block"
-          style={{ transformStyle: 'preserve-3d' }}
-        />
-
-        <motion.div
-          animate={{ 
-            y: [0, -20, 0],
-            x: [0, 10, 0],
-          }}
-          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-1/2 left-[8%] w-8 h-8 rounded-full bg-primary/20 blur-sm hidden lg:block"
-        />
       </div>
+
+      {/* Circuit SVG lines (right side, desktop) */}
+      <svg
+        aria-hidden
+        className="pointer-events-none absolute right-0 top-0 h-full w-1/2 opacity-30 dark:opacity-20 hidden lg:block -z-10"
+        viewBox="0 0 680 620"
+        fill="none"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <path d="M115 255 C220 185, 320 205, 405 145 S555 105, 620 190" stroke="#8FBC52" strokeWidth="1.5" strokeDasharray="6 8" />
+        <path d="M140 390 C250 320, 330 410, 445 330 S570 270, 630 340" stroke="#B9D97A" strokeWidth="1.5" strokeDasharray="5 10" />
+        <circle cx="405" cy="145" r="5" fill="#8FBC52" />
+        <circle cx="445" cy="330" r="5" fill="#8FBC52" />
+        <circle cx="620" cy="190" r="4" fill="#B9D97A" />
+      </svg>
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
@@ -144,7 +110,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 40, rotateX: -15 }}
               animate={{ opacity: 1, y: 0, rotateX: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-balance mb-6 leading-[1.05]"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-balance mb-6 leading-[1.05] text-[#1F1F1F] dark:text-foreground"
             >
               {t('hero.title')}{' '}
               <span className="relative inline-block">
