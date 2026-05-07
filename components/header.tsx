@@ -65,14 +65,11 @@ export function Header() {
             <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="relative">
                 <Image
-                  src="/logo.png"
+                  src={isDark ? "/logo-white.png" : "/logo.png"}
                   alt="Rawij Logo"
                   width={120}
                   height={40}
-                  className={cn(
-                    'h-7 sm:h-8 lg:h-9 w-auto transition-all',
-                    isDark && 'brightness-0 invert'
-                  )}
+                  className="h-7 sm:h-8 lg:h-9 w-auto transition-all duration-300"
                   priority
                 />
               </motion.div>
